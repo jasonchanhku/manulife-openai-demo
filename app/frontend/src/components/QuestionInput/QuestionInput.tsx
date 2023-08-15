@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Stack, TextField } from "@fluentui/react";
-import { Send28Filled } from "@fluentui/react-icons";
+import { Send28Filled, MicSparkle24Filled } from "@fluentui/react-icons";
 
 import styles from "./QuestionInput.module.css";
 
@@ -55,6 +55,16 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
                 onChange={onQuestionChange}
                 onKeyDown={onEnterPress}
             />
+            <div className={styles.questionInputButtonsContainer}>
+                <div
+                    className={`${styles.questionInputSendButton} ${sendQuestionDisabled ? styles.questionInputSendButtonDisabled : ""}`}
+                    aria-label="Record Audio"
+                    onClick={sendQuestion}
+                    style={{ paddingRight: '10px' }}
+                >
+                    <MicSparkle24Filled primaryFill="rgba(115, 118, 225, 1)" />
+                </div>
+            </div>
             <div className={styles.questionInputButtonsContainer}>
                 <div
                     className={`${styles.questionInputSendButton} ${sendQuestionDisabled ? styles.questionInputSendButtonDisabled : ""}`}
