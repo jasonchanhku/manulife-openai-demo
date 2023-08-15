@@ -1,6 +1,7 @@
 import { Outlet, NavLink, Link } from "react-router-dom";
 
 import github from "../../assets/github.svg";
+import manulife_logo from "../../assets/logo-white.svg";
 
 import styles from "./Layout.module.css";
 
@@ -10,7 +11,11 @@ const Layout = () => {
             <header className={styles.header} role={"banner"}>
                 <div className={styles.headerContainer}>
                     <Link to="/" className={styles.headerTitleContainer}>
-                        <h3 className={styles.headerTitle}>GPT + Enterprise data | Sample</h3>
+                        {/* <h3 className={styles.headerTitle}>Manulife Product Master</h3> */}
+                        <img
+                                        src={manulife_logo}
+                                        alt="Manulife logo"
+                        />
                     </Link>
                     <nav>
                         <ul className={styles.headerNavList}>

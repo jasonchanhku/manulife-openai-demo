@@ -45,8 +45,10 @@
     text-align: center;
     border-radius: 4px;
     padding: 0px 8px;
-    background: #d1dbfa;
-    color: #123bb6;
+    /* background: #d1dbfa; */
+    /* color: #123bb6; */
+    background: #00a758;
+    color: #FFFFFF;
     text-decoration: none;
     cursor: pointer;
 }
@@ -71,8 +73,10 @@
     text-align: center;
     border-radius: 4px;
     padding: 0px 8px;
-    background: #e8ebfa;
-    color: black;
+    /* background: #e8ebfa;
+    color: black; */
+    background: #2f3246;
+    color: white;
     font-style: italic;
     text-decoration: none;
     cursor: pointer;
@@ -100,8 +104,10 @@ sup {
     min-width: 14px;
     height: 14px;
     border-radius: 3px;
-    background: #d1dbfa;
-    color: #123bb6;
+    /* background: #d1dbfa;
+    color: #123bb6; */
+    background: #00a758;
+    color: #FFFFFF;
     text-decoration-color: transparent;
     outline: transparent solid 1px;
     cursor: pointer;

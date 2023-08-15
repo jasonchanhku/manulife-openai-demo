@@ -118,3 +118,8 @@
     width: 70px; /* set the desired width */
     height: 70px; /* automatically adjust the height based on the aspect ratio */
   }
+
+.chatLogoManuSmall {
+    width: 15px; /* set the desired width */
+    height: 15px; /* automatically adjust the height based on the aspect ratio */
+  }

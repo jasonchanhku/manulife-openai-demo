@@ -143,8 +143,8 @@ const Chat = () => {
                         <div className={styles.chatEmptyState}>
                             {/* <SparkleFilled fontSize={"120px"} primaryFill={"rgba(115, 118, 225, 1)"} aria-hidden="true" aria-label="Chat logo" /> */}
                             <img src={MyImg} alt="Chat logo" className={styles.chatLogoManu}/>
-                            <h1 className={styles.chatEmptyStateTitle}>Chat with your data</h1>
-                            <h2 className={styles.chatEmptyStateSubtitle}>Ask anything or try an example</h2>
+                            <h1 className={styles.chatEmptyStateTitle}>Manulife Products AI Chatbot</h1>
+                            <h2 className={styles.chatEmptyStateSubtitle}>Ask me anything or start with the questions below:</h2>
                             <ExampleList onExampleClicked={onExampleClicked} />
                         </div>
                     ) : (
@@ -189,7 +189,7 @@ const Chat = () => {
                     <div className={styles.chatInput}>
                         <QuestionInput
                             clearOnSend
-                            placeholder="Type a new question (e.g. does my plan cover annual eye exams?)"
+                            placeholder="Type a new question (e.g. what are the requirements of ManuCentury?)"
                             disabled={isLoading}
                             onSend={question => makeApiRequest(question)}
                         />
