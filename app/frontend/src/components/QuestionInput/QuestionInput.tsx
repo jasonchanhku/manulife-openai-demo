@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Stack, TextField } from "@fluentui/react";
-import { Send28Filled, MicSparkle24Filled } from "@fluentui/react-icons";
+import { Send28Filled, MicPulse28Filled, MicProhibited28Filled } from "@fluentui/react-icons";
 
 import styles from "./QuestionInput.module.css";
 
@@ -57,12 +57,22 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
             />
             <div className={styles.questionInputButtonsContainer}>
                 <div
-                    className={`${styles.questionInputSendButton} ${sendQuestionDisabled ? styles.questionInputSendButtonDisabled : ""}`}
+                    className={styles.questionInputSendButton}
                     aria-label="Record Audio"
                     onClick={sendQuestion}
                     style={{ paddingRight: '10px' }}
                 >
-                    <MicSparkle24Filled primaryFill="rgba(115, 118, 225, 1)" />
+                    <MicPulse28Filled primaryFill="rgba(0, 167, 88, 1)" />
+                </div>
+            </div>
+            <div className={styles.questionInputButtonsContainer}>
+                <div
+                    className={styles.questionInputSendButton}
+                    aria-label="Stop Record Audio"
+                    onClick={sendQuestion}
+                    style={{ paddingRight: '10px' }}
+                >
+                    <MicProhibited28Filled primaryFill="rgba(0, 167, 88, 1)" />
                 </div>
             </div>
             <div className={styles.questionInputButtonsContainer}>
@@ -71,7 +81,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
                     aria-label="Ask question button"
                     onClick={sendQuestion}
                 >
-                    <Send28Filled primaryFill="rgba(115, 118, 225, 1)" />
+                    <Send28Filled primaryFill="rgba(0, 167, 88, 1)" />
                 </div>
             </div>
         </Stack>
