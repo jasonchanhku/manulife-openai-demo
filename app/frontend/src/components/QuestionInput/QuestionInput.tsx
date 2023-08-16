@@ -6,7 +6,7 @@ import { WhisperSTT } from "whisper-speech-to-text";
 
 import styles from "./QuestionInput.module.css";
 
-const whisper = new WhisperSTT("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");
+const whisper = new WhisperSTT("OPEN_AI_API_KEY");
 
 
 interface Props {
