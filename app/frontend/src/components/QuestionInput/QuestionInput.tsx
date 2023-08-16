@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Stack, TextField } from "@fluentui/react";
 import { Send28Filled, MicPulse28Filled, MicProhibited28Filled } from "@fluentui/react-icons";
+import { WhisperSTT } from "whisper-speech-to-text";
+
 
 import styles from "./QuestionInput.module.css";
+
+const whisper = new WhisperSTT("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");
+
 
 interface Props {
     onSend: (question: string) => void;
@@ -13,6 +18,8 @@ interface Props {
 
 export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Props) => {
     const [question, setQuestion] = useState<string>("");
+    const [isFromTranscription, setIsFromTranscription] = useState(false);
+
 
     const sendQuestion = () => {
         if (disabled || !question.trim()) {
@@ -25,6 +32,25 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
             setQuestion("");
         }
     };
+
+    const startRecord = async () => {
+        // Start recording
+        await whisper.startRecording();
+    };
+
+    const stopRecord = async () => {
+        await whisper.stopRecording((text) => {
+            setQuestion(text);
+            setIsFromTranscription(true);
+        });
+    };
+    
+    useEffect(() => {
+        if (question.trim() && isFromTranscription) {
+            onSend(question);
+            setIsFromTranscription(false); // Reset the flag
+        }
+    }, [question, isFromTranscription]);
 
     const onEnterPress = (ev: React.KeyboardEvent<Element>) => {
         if (ev.key === "Enter" && !ev.shiftKey) {
@@ -59,7 +85,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
                 <div
                     className={styles.questionInputSendButton}
                     aria-label="Record Audio"
-                    onClick={sendQuestion}
+                    onClick={startRecord}
                     style={{ paddingRight: '10px' }}
                 >
                     <MicPulse28Filled primaryFill="rgba(0, 167, 88, 1)" />
@@ -69,7 +95,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
                 <div
                     className={styles.questionInputSendButton}
                     aria-label="Stop Record Audio"
-                    onClick={sendQuestion}
+                    onClick={stopRecord}
                     style={{ paddingRight: '10px' }}
                 >
                     <MicProhibited28Filled primaryFill="rgba(0, 167, 88, 1)" />
