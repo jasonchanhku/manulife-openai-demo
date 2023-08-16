@@ -6,8 +6,11 @@ import { WhisperSTT } from "whisper-speech-to-text";
 
 import styles from "./QuestionInput.module.css";
 
-const whisper = new WhisperSTT("OPEN_AI_API_KEY");
-
+// Load environment variables from .env file
+import dotenv from "dotenv";
+dotenv.config();
+// Use the OPEN_AI_API_KEY from the .env file
+const whisper = new WhisperSTT(process.env.OPEN_AI_API_KEY as string);
 
 interface Props {
     onSend: (question: string) => void;
