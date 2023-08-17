@@ -12,7 +12,7 @@ const EXAMPLES: ExampleModel[] = [
         text: "What is the ManuCentury product?",
         value: "What is the ManuCentury product?"
     },
-    { text: "What are the key differences in benefits of ManuCentury and ManuJoy?", value: "What are the key differences in benefits of ManuCentury and ManuJoy?" },
+    { text: "Help me summarize the key benefits of ManuCentury.", value: "Help me summarize the key benefits of ManuCentury." },
     { text: "Recommend me some Manulife products for a 30 year old working professional.", value: "Recommend me some Manulife products for a 30 year old working professional." }
 ];
 

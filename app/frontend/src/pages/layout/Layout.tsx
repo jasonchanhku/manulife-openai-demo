@@ -18,7 +18,7 @@ const Layout = () => {
                         />
                     </Link>
                     <nav>
-                        <ul className={styles.headerNavList}>
+                        {/* <ul className={styles.headerNavList}>
                             <li>
                                 <NavLink to="/" className={({ isActive }) => (isActive ? styles.headerNavPageLinkActive : styles.headerNavPageLink)}>
                                     Chat
@@ -41,7 +41,7 @@ const Layout = () => {
                                     />
                                 </a>
                             </li>
-                        </ul>
+                        </ul> */}
                     </nav>
                     <h4 className={styles.headerRightText}>Powered by HKIRD team</h4>
                 </div>
