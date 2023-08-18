@@ -12,7 +12,7 @@ import styles from "./QuestionInput.module.css";
 // Use the OPEN_AI_API_KEY from the .env file
 // const whisper = new WhisperSTT(process.env.OPEN_AI_API_KEY as string);
 
-const whisper = new WhisperSTT("YOUR_API_KEY");
+const whisper = new WhisperSTT("OPEN_AI_API_KEY");
 
 interface Props {
     onSend: (question: string) => void;

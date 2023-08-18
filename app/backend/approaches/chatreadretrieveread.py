@@ -16,24 +16,35 @@ class ChatReadRetrieveReadApproach(ChatApproach):
     USER = "user"
     ASSISTANT = "assistant"
 
+    MANULIFE_PRODUCTS = ["Accidental Death Benefit", "Cancer Guard Protection Benefit", 
+                         "Cancer Treatment Beneft", "Careguard Critical Illness Benefit",
+                         "Cash Assistance Benefit", "Child Care Benefit", "Disability Income Protector",
+                         "Hospital Income Benefit", "La Vie 2", "ManuTerm", "ManuBright Care 2", "ManuBright Care 2 Plus",
+                         "ManuCentury", "ManuDelight", "ManuElite Protector", "ManuEnrich Medical Top Up Plan",
+                         "ManuGrand Saver 2", "ManuGuard Medical Plan", "ManuImperial Saver 2", "ManuJoy",
+                         "Manuleisure Deferred Annuity", "Manulife First VHIS Flexi Plan", "ManuWealth USD Plan",
+                         "ManuLove Care", "ManuMaster", "ManuVital Care", "MyChoice", "Outpatient", "Premier Estate Protector",
+                         "Premium Waiving Benefits", "Take Care Personal Accident Plan 2", "Universal Life", "Whole in One Prime 2", 
+                         "Whole in One Protector"]
+
     """
     Simple retrieve-then-read implementation, using the Cognitive Search and OpenAI APIs directly. It first retrieves
     top documents from search, then constructs a prompt with them, and then uses OpenAI to generate an completion
     (answer) with that prompt.
     """
-    system_message_chat_conversation = """Assistant helps the company employees with their healthcare plan questions, and questions about the employee handbook. Be brief in your answers.
-Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
-For tabular information return it as an html table. Do not return markdown format. If the question is not in English, answer in the language used in the question.
+    system_message_chat_conversation = """You are an intelligent assistant helping Manulife insurance agents and customers with their questions and analysis on Manulife insurance plans and products, based on the sources provided. You are provided information in the sources on the following Manulife products: Accidental Death Benefit, Cancer Guard Protection Benefit, Cancer Treatment Beneft, Careguard Critical Illness Benefit, Cash Assistance Benefit, Child Care Benefit, Disability Income Protector, Hospital Income Benefit, La Vie 2, ManuTerm, ManuBright Care 2, ManuBright Care 2 Plus, ManuCentury, ManuDelight, ManuElite Protector, ManuEnrich Medical Top Up Plan, ManuGrand Saver 2, ManuGuard Medical Plan, ManuImperial Saver 2, ManuJoy, Manuleisure Deferred Annuity, Manulife First VHIS Flexi Plan, ManuWealth USD Plan, ManuLove Care, ManuMaster, ManuVital Care, MyChoice, Outpatient, Premier Estate Protector, Premium Waiving Benefits, Take Care Personal Accident Plan 2, Universal Life, Whole in One Prime 2, Whole in One Protector.
+Answer ONLY with the facts listed in the list of sources below and strictly about Manulife insurance products. Do a thorough check to see if there is information provided in the source about that Manulife product. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
+Kindly reject the user's request for anything not related to asking, analyzing, and follow up on Manulife products, e.g let's play a game, etc. For tabular information return it as an html table. Do not return markdown format. If the question is not in English, answer in the language used in the question.
 Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brackets to reference the source, e.g. [info1.txt]. Don't combine sources, list each source separately, e.g. [info1.txt][info2.pdf].
 {follow_up_questions_prompt}
 {injected_prompt}
 """
-    follow_up_questions_prompt_content = """Generate three very brief follow-up questions that the user would likely ask next about their healthcare plan and employee handbook.
+    follow_up_questions_prompt_content = """Generate three very brief follow-up questions that the user would likely ask next about the Manulife insurance products they are currently inquiring about.
 Use double angle brackets to reference the questions, e.g. <<Are there exclusions for prescriptions?>>.
 Try not to repeat questions that have already been asked.
 Only generate questions and do not generate any text before or after the questions, such as 'Next Questions'"""
 
-    query_prompt_template = """Below is a history of the conversation so far, and a new question asked by the user that needs to be answered by searching in a knowledge base about employee healthcare plans and the employee handbook.
+    query_prompt_template = """Below is a history of the conversation so far, and a new question asked by the user that needs to be answered by searching in a knowledge base about Manulife insurance products.
 Generate a search query based on the conversation and the new question.
 Do not include cited source filenames and document names e.g info.txt or doc.pdf in the search query terms.
 Do not include any text inside [] or <<>> in the search query terms.
@@ -42,10 +53,10 @@ If the question is not in English, translate the question to English before gene
 If you cannot generate a search query, return just the number 0.
 """
     query_prompt_few_shots = [
-        {'role' : USER, 'content' : 'What are my health plans?' },
-        {'role' : ASSISTANT, 'content' : 'Show available health plans' },
-        {'role' : USER, 'content' : 'does my plan cover cardio?' },
-        {'role' : ASSISTANT, 'content' : 'Health plan cardio coverage' }
+        {'role' : USER, 'content' : 'What premium payment options are available for Le Vie 2?' },
+        {'role' : ASSISTANT, 'content' : 'Show available premium payment options.' },
+        {'role' : USER, 'content' : 'What are the difference in death benefits between ManuCentury and ManuLeisure Deferred Annuity' },
+        {'role' : ASSISTANT, 'content' : 'Compare the death benefits between those 2 products.' }
     ]
 
     def __init__(self, search_client: SearchClient, chatgpt_deployment: str, chatgpt_model: str, embedding_deployment: str, sourcepage_field: str, content_field: str):
@@ -141,10 +152,10 @@ If you cannot generate a search query, return just the number 0.
             system_message = prompt_override.format(follow_up_questions_prompt=follow_up_questions_prompt)
 
         messages = self.get_messages_from_history(
-            system_message + "\n\nSources:\n" + content,
+            system_message,
             self.chatgpt_model,
             history,
-            history[-1]["user"],
+            history[-1]["user"]+ "\n\nSources:\n" + content, # Model does not handle lengthy system messages well. Moving sources to latest user conversation to solve follow up questions prompt.
             max_tokens=self.chatgpt_token_limit)
 
         chat_completion = await openai.ChatCompletion.acreate(
