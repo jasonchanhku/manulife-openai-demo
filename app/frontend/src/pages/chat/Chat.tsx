@@ -142,7 +142,7 @@ const Chat = () => {
                     {!lastQuestionRef.current ? (
                         <div className={styles.chatEmptyState}>
                             {/* <SparkleFilled fontSize={"120px"} primaryFill={"rgba(115, 118, 225, 1)"} aria-hidden="true" aria-label="Chat logo" /> */}
-                            <img src={MyImg} alt="Chat logo" className={styles.chatLogoManu}/>
+                            <img src={MyImg} alt="Chat logo" className={styles.chatLogoManu} />
                             <h1 className={styles.chatEmptyStateTitle}>Manulife Products AI Chatbot</h1>
                             <h2 className={styles.chatEmptyStateSubtitle}>Ask me anything or start with the questions below:</h2>
                             <ExampleList onExampleClicked={onExampleClicked} />

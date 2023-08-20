@@ -3,7 +3,6 @@ import { Stack, TextField } from "@fluentui/react";
 import { Send28Filled, MicPulse28Filled, MicProhibited28Filled } from "@fluentui/react-icons";
 import { WhisperSTT } from "whisper-speech-to-text";
 
-
 import styles from "./QuestionInput.module.css";
 
 // Load environment variables from .env file
@@ -12,7 +11,7 @@ import styles from "./QuestionInput.module.css";
 // Use the OPEN_AI_API_KEY from the .env file
 // const whisper = new WhisperSTT(process.env.OPEN_AI_API_KEY as string);
 
-const whisper = new WhisperSTT("OPEN_AI_API_KEY");
+const whisper = new WhisperSTT("YOUR KEY");
 
 interface Props {
     onSend: (question: string) => void;
@@ -24,7 +23,6 @@ interface Props {
 export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Props) => {
     const [question, setQuestion] = useState<string>("");
     const [isFromTranscription, setIsFromTranscription] = useState(false);
-
 
     const sendQuestion = () => {
         if (disabled || !question.trim()) {
@@ -44,12 +42,12 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
     };
 
     const stopRecord = async () => {
-        await whisper.stopRecording((text) => {
+        await whisper.stopRecording(text => {
             setQuestion(text);
             setIsFromTranscription(true);
         });
     };
-    
+
     useEffect(() => {
         if (question.trim() && isFromTranscription) {
             onSend(question);
@@ -87,22 +85,12 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend }: Pr
                 onKeyDown={onEnterPress}
             />
             <div className={styles.questionInputButtonsContainer}>
-                <div
-                    className={styles.questionInputSendButton}
-                    aria-label="Record Audio"
-                    onClick={startRecord}
-                    style={{ paddingRight: '10px' }}
-                >
+                <div className={styles.questionInputSendButton} aria-label="Record Audio" onClick={startRecord} style={{ paddingRight: "10px" }}>
                     <MicPulse28Filled primaryFill="rgba(0, 167, 88, 1)" />
                 </div>
             </div>
             <div className={styles.questionInputButtonsContainer}>
-                <div
-                    className={styles.questionInputSendButton}
-                    aria-label="Stop Record Audio"
-                    onClick={stopRecord}
-                    style={{ paddingRight: '10px' }}
-                >
+                <div className={styles.questionInputSendButton} aria-label="Stop Record Audio" onClick={stopRecord} style={{ paddingRight: "10px" }}>
                     <MicProhibited28Filled primaryFill="rgba(0, 167, 88, 1)" />
                 </div>
             </div>
